@@ -6,39 +6,49 @@ import doodle.java2d._
 import doodle.reactor._
 import scala.concurrent.duration._
 
-// To use this example:
+// Para usar este ejemplo:
+
 //
 // 1. run `sbt`
 // 2. run the `run` command within `sbt`
 object Example {
-  val image =
-    Image
-      .circle(10)
-      .fillColor(Color.red)
-      .on(Image.circle(20).fillColor(Color.aquamarine))
-      .on(Image.circle(30).fillColor(Color.steelBlue))
+  val vector = 3
 
-  val animation =
-    Reactor
-      .init(-200)
-      .onTick(x => x + 1)
-      .stop(x => x > 200)
-      .tickRate(20.millis)
-      .render{x =>
-        val y = x.degrees.sin * 200
-        val planet = Image.circle(20.0).noStroke.fillColor(Color.seaGreen)
-        val moon = Image.circle(5.0).noStroke.fillColor(Color.slateGray).at((x * 10).degrees.cos * 50, (x * 10).degrees.sin * 50)
+  val roof = Image.triangle(50 * vector, 30 * vector) fillColor Color.brown
 
-        moon.on(planet).at(x, y)
-      }
+  val frontDoor =
+    (Image.rectangle(50 * vector, 15 * vector) fillColor Color.red) above (
+      (Image.rectangle(10 * vector, 25 * vector) fillColor Color.black) on
+        (Image.rectangle(50 * vector, 25 * vector) fillColor Color.red)
+      )
 
-  val frame = Frame.size(600, 600)
+  val house = roof above frontDoor
 
+  val tree =
+    (
+      (Image.circle(50 * vector) fillColor Color.green) above
+        (Image.rectangle(10 * vector, 20 * vector) fillColor Color.brown)
+      )
+
+  val streetSegment =
+    (
+      (Image.rectangle(30 * vector, 3 * vector) fillColor Color.yellow) beside
+        (Image.rectangle(15 * vector, 3 * vector) fillColor Color.black) above
+        (Image.rectangle(45 * vector, 7 * vector) fillColor Color.black)
+      )
+
+  val street = streetSegment beside streetSegment beside streetSegment
+
+  val houseAndGarden =
+    (house beside tree) above street
+
+  val imagen = (
+    houseAndGarden beside
+      houseAndGarden beside
+      houseAndGarden
+    ) strokeWidth 0
 
   def main(args: Array[String]): Unit = {
-    image.draw()
-
-    // Comment out the above and uncomment the below to display the animation
-    // animation.run(frame)
+    imagen.draw()
   }
 }
