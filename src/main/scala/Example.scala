@@ -12,7 +12,7 @@ import scala.concurrent.duration._
 // 1. run `sbt`
 // 2. run the `run` command within `sbt`
 object Example {
-  val vector = 4
+  val vector = 3
 
   val roof = Image.triangle(50 * vector, 30 * vector) fillColor Color.brown
 
